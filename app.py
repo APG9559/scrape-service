@@ -2,11 +2,21 @@ from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from firecrawl import FirecrawlApp
 import os, re, time
+from fastapi.middleware.cors import CORSMiddleware
 
 
 
 # Initialize FastAPI
 app = FastAPI(title="Job Scraper API", description="Scrapes job data from multiple portals using Firecrawl")
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],            # List of allowed origins
+    allow_credentials=True,           # Allow cookies/auth headers
+    allow_methods=["*"],              # Allow all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],              # Allow all headers
+)
 
 # Initialize Firecrawl
 app_fc = FirecrawlApp(api_key="fc-4b7fd5a389f74250a05de6f372f4be9a")
@@ -63,10 +73,10 @@ async def scrape_jobs():
 
     # A list of URLs you want to scrape for job data
     urls_to_scrape = [
-        'https://www.naukri.com/it-jobs?src=gnbjobs_homepage_srch',
+        # 'https://www.naukri.com/it-jobs?src=gnbjobs_homepage_srch',
         'https://m.timesjobs.com/mobile/jobs-search-result.html?jobsSearchCriteria=Information%20Technology&cboPresFuncArea=35',
-        'https://www.linkedin.com/jobs/search?keywords=Software%20Developer',
-        'https://in.indeed.com/jobs?q=fresher&l=Pune%2C+Maharashtra&from=searchOnHP%2CsearchSuggestions%2CwhatautocompleteSourceStandard%2Cwhereautocomplete&vjk=716a4d5e935de57b'
+        # 'https://www.linkedin.com/jobs/search?keywords=Software%20Developer',
+        # 'https://in.indeed.com/jobs?q=fresher&l=Pune%2C+Maharashtra&from=searchOnHP%2CsearchSuggestions%2CwhatautocompleteSourceStandard%2Cwhereautocomplete&vjk=716a4d5e935de57b'
         # Add more job site URLs here
     ]
 
